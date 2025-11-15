@@ -108,6 +108,9 @@ jobs:
         
         ## Status
         ✅ All systems operational
+        
+        ## Deployment
+        Ready to deploy to Render - see [DEPLOYMENT.md](../DEPLOYMENT.md)
         EOFMARKER
     
     - name: Commit test results
@@ -128,7 +131,7 @@ jobs:
     - name: Create deployment summary
       if: always()
       run: |
-        echo "# 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+        echo "# 🚀 Test & Deployment Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "**Status:** ✅ Tests completed" >> $GITHUB_STEP_SUMMARY
         echo "**Timestamp:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
@@ -140,5 +143,11 @@ jobs:
         echo "- ✅ Value Bets AI" >> $GITHUB_STEP_SUMMARY
         echo "- ✅ Custom Analysis" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "## Next Steps" >> $GITHUB_STEP_SUMMARY
-        echo "System is ready for deployment to Railway/Render" >> $GITHUB_STEP_SUMMARY
+        echo "## Deployment" >> $GITHUB_STEP_SUMMARY
+        echo "System is ready for deployment to Render" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Deploy Now" >> $GITHUB_STEP_SUMMARY
+        echo "1. Go to https://render.com" >> $GITHUB_STEP_SUMMARY
+        echo "2. Sign up with GitHub" >> $GITHUB_STEP_SUMMARY
+        echo "3. Deploy as Blueprint" >> $GITHUB_STEP_SUMMARY
+        echo "4. See [DEPLOYMENT.md](../DEPLOYMENT.md) for details" >> $GITHUB_STEP_SUMMARY
