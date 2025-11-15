@@ -10,8 +10,7 @@ import os
 # Add parent directories to path
 sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 
-from golden_bets_ai import GoldenBetsFilter
-from smart_bets_ai.predict import SmartBetsPredictor
+from golden_bets_ai import GoldenBetsPredictor, GoldenBetsFilter
 
 router = APIRouter(prefix="/api/v1/predictions", tags=["Golden Bets"])
 
@@ -48,23 +47,12 @@ async def get_golden_bets(request: Dict[str, Any]):
         if not matches:
             raise HTTPException(status_code=400, detail="No matches provided")
         
-        # Get Smart Bets predictions first
-        predictor = SmartBetsPredictor()
-        smart_predictions = predictor.predict(matches)
+        # Use predictor to get Golden Bets
+        predictor = GoldenBetsPredictor()
+        golden_bets = predictor.predict(matches)
         
-        # Get model probabilities for ensemble agreement
-        model_probs = predictor.get_model_probabilities(matches)
-        
-        # Filter for Golden Bets
-        filter = GoldenBetsFilter()
-        golden_bets = filter.filter_golden_bets(
-            smart_bets_predictions=smart_predictions,
-            model_probabilities=model_probs
-        )
-        
-        # Add reasoning to each Golden Bet
-        for bet in golden_bets:
-            bet['reasoning'] = filter.generate_reasoning(bet)
+        # Get total candidates from Smart Bets
+        smart_predictions = predictor.smart_bets_predictor.predict(matches)
         
         return {
             "golden_bets": golden_bets,
