@@ -7,7 +7,7 @@ services:
     plan: free
     branch: main
     buildCommand: pip install -r requirements.txt
-    startCommand: cd user-api && uvicorn main:app --host 0.0.0.0 --port $PORT
+    startCommand: cd user-api && python main.py
     healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
@@ -25,13 +25,16 @@ services:
           type: redis
           name: football-betting-redis
           property: connectionString
+      # Dış odds API kullanmayacağız ama kod key beklerse hata vermesin diye dummy koyuyoruz
+      - key: ODDS_API_KEY
+        value: dummy
 
   # Redis Service
   - type: redis
     name: football-betting-redis
     plan: free
     region: oregon
-    ipAllowList: []   # sadece internal erişim, sorun değil
+    ipAllowList: []   # sadece internal erişim
 
 databases:
   # PostgreSQL Database
