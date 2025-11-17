@@ -1,5 +1,4 @@
 services:
-  # Web Service - FastAPI Application
   - type: web
     name: football-betting-ai
     env: python
@@ -7,7 +6,7 @@ services:
     plan: free
     branch: main
     buildCommand: pip install -r requirements.txt
-    startCommand: cd user-api && python main.py
+    startCommand: PYTHONPATH=/opt/render/project/src python user-api/main.py
     healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
@@ -25,19 +24,16 @@ services:
           type: redis
           name: football-betting-redis
           property: connectionString
-      # Dış odds API kullanmayacağız ama kod key beklerse hata vermesin diye dummy koyuyoruz
       - key: ODDS_API_KEY
         value: dummy
 
-  # Redis Service
   - type: redis
     name: football-betting-redis
     plan: free
     region: oregon
-    ipAllowList: []   # sadece internal erişim
+    ipAllowList: []
 
 databases:
-  # PostgreSQL Database
   - name: football-betting-db
     databaseName: football_betting
     plan: free
