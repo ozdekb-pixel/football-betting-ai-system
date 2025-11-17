@@ -7,12 +7,12 @@ services:
     plan: free
     branch: main
 
-    # 1) Tüm Python paketleri + local data-ingestion paketi kurulsun
+    # Build: normal paketler + local data-ingestion paketi
     buildCommand: |
       pip install -r requirements.txt
       pip install ./data-ingestion
 
-    # 2) User API'yi orijinal dökümanda anlatıldığı gibi çalıştır
+    # Çalıştırma: orijinal README'deki gibi
     startCommand: cd user-api && python main.py
 
     healthCheckPath: /health
@@ -34,17 +34,15 @@ services:
           name: football-betting-redis
           property: connectionString
 
+  # Redis Service
+  - type: redis
+    name: football-betting-redis
+    plan: free
+    region: oregon
+
 databases:
   # PostgreSQL Database
   - name: football-betting-db
     databaseName: football_betting
-    plan: free
-    region: oregon
-
-# Redis artık ayrı bir service olarak tanımlı
-  # (maxmemoryPolicy falan gerek yok, free planda default ayarlar yeter)
-services:
-  - type: redis
-    name: football-betting-redis
     plan: free
     region: oregon
