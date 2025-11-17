@@ -22,20 +22,20 @@ services:
           property: connectionString
       - key: REDIS_URL
         fromService:
-          name: football-betting-redis
           type: redis
+          name: football-betting-redis
           property: connectionString
+
+  # Redis Service
+  - type: redis
+    name: football-betting-redis
+    plan: free
+    region: oregon
+    ipAllowList: []   # sadece internal erişim, sorun değil
 
 databases:
   # PostgreSQL Database
   - name: football-betting-db
     databaseName: football_betting
-    plan: free
-    region: oregon
-
-services:
-  # Redis Service (correct way for Render)
-  - type: redis
-    name: football-betting-redis
     plan: free
     region: oregon
